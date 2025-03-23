@@ -1,0 +1,108 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StreamPlus - Confirm Your Information{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-check-circle me-2"></i>Review Your Information
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="progress mb-4" style="height: 0.5rem;">
+                        <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="alert alert-success mb-4">
+                        <i class="bi bi-check-circle-fill me-2"></i>
+                        Please review your information before completing registration
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="mb-3">
+                            <i class="bi bi-person-circle me-2"></i>Personal Information
+                        </h4>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Name:</dt>
+                                    <dd class="col-sm-8">{{ userData.name }}</dd>
+
+                                    <dt class="col-sm-4">Email:</dt>
+                                    <dd class="col-sm-8">{{ userData.email }}</dd>
+
+                                    <dt class="col-sm-4">Phone Number:</dt>
+                                    <dd class="col-sm-8">{{ userData.phoneNumber }}</dd>
+
+                                    <dt class="col-sm-4">Subscription:</dt>
+                                    <dd class="col-sm-8">
+                                        <span class="badge bg-{{ userData.subscriptionType == 'premium' ? 'primary' : 'secondary' }}">
+                                            {{ userData.subscriptionType|capitalize }}
+                                        </span>
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <h4 class="mb-3">
+                            <i class="bi bi-geo-alt me-2"></i>Address Information
+                        </h4>
+                        <div class="card bg-light">
+                            <div class="card-body">
+                                <dl class="row mb-0">
+                                    <dt class="col-sm-4">Address:</dt>
+                                    <dd class="col-sm-8">
+                                        {{ addressData.addressLine1 }}<br>
+                                        {% if addressData.addressLine2 %}
+                                            {{ addressData.addressLine2 }}<br>
+                                        {% endif %}
+                                        {{ addressData.city }}, {{ addressData.stateProvince }} {{ addressData.postalCode }}<br>
+                                        {{ addressData.country }}
+                                    </dd>
+                                </dl>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if userData.subscriptionType == 'premium' and paymentData is defined and paymentData %}
+                        <div class="mb-4">
+                            <h4 class="mb-3">
+                                <i class="bi bi-credit-card me-2"></i>Payment Information
+                            </h4>
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-4">Card Number:</dt>
+                                        <dd class="col-sm-8">
+                                            <i class="bi bi-credit-card me-2"></i>
+                                            **** **** **** {{ paymentData.cardNumber|slice(-4) }}
+                                        </dd>
+
+                                        <dt class="col-sm-4">Expiration Date:</dt>
+                                        <dd class="col-sm-8">{{ paymentData.expirationDate }}</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" class="mt-4">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                                <i class="bi bi-arrow-left me-2"></i>Previous Step
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle me-2"></i>Complete Registration
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

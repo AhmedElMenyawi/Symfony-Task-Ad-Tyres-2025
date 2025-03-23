@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StreamPlus - Registration Complete{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <div class="mb-4">
+                        <i class="bi bi-check-circle-fill text-success" style="font-size: 4rem;"></i>
+                    </div>
+                    <h2 class="card-title mb-4">Welcome to StreamPlus!</h2>
+                    <p class="card-text mb-4">
+                        Your registration has been completed successfully. You can now start enjoying our streaming service.
+                    </p>
+                    <div class="d-grid gap-2">
+                        <a href="#" class="btn btn-primary opacity-50" style="pointer-events: none;">
+                            Go to Dashboard
+                        </a>
+                        <a href="{{ path('app_register') }}" class="btn btn-outline-secondary">Register Another Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %} 

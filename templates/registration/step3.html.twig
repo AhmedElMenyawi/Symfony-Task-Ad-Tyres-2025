@@ -1,0 +1,125 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StreamPlus - Payment Information{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-credit-card me-2"></i>Step 3: Payment Information
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {
+                        'attr': {
+                            'class': 'needs-validation',
+                            'novalidate': 'novalidate',
+                            'data-controller': 'form-validation',
+                            'data-form-validation-step-value': 3,
+                            'data-form-validation-total-steps-value': 3
+                        }
+                    }) }}
+                    
+                    <div class="progress mb-4" style="height: 0.5rem;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        {{ form_label(form.cardNumber) }}
+                        {{ form_widget(form.cardNumber) }}
+                        {{ form_errors(form.cardNumber) }}
+                        <div class="form-text">
+                            <i class="bi bi-credit-card me-1"></i>
+                            We accept Visa, Mastercard, and American Express
+                        </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-8">
+                            {{ form_label(form.expirationDate) }}
+                            {{ form_widget(form.expirationDate) }}
+                            {{ form_errors(form.expirationDate) }}
+                            <div class="form-text">Format: MM/YYYY</div>
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_label(form.cvv) }}
+                            {{ form_widget(form.cvv) }}
+                            {{ form_errors(form.cvv) }}
+                            <div class="form-text">
+                                <i class="bi bi-info-circle me-1"></i>
+                                3-4 digits on back
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                            <i class="bi bi-arrow-left me-2"></i>Previous Step
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-form-validation-target="submitButton">
+                            Review & Confirm <i class="bi bi-check-circle ms-2"></i>
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add custom validation styles
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    // Clear all error messages when submitting
+                    const errorMessages = form.querySelectorAll('.invalid-feedback');
+                    errorMessages.forEach(error => error.style.display = 'none');
+                    
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            // Format credit card number
+            const cardInput = document.querySelector('#payment_info_cardNumber');
+            cardInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+                for (let i = 0; i < value.length; i++) {
+                    if (i > 0 && i % 4 === 0) {
+                        formattedValue += ' ';
+                    }
+                    formattedValue += value[i];
+                }
+                e.target.value = formattedValue;
+            });
+
+            // Format expiration date
+            const expirationInput = document.querySelector('#payment_info_expirationDate');
+            expirationInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length > 2) {
+                    value = value.substring(0, 2) + '/' + value.substring(2);
+                }
+                e.target.value = value;
+            });
+
+            // Validate CVV
+            const cvvInput = document.querySelector('#payment_info_cvv');
+            cvvInput.addEventListener('input', function(e) {
+                e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+            });
+        });
+    </script>
+{% endblock %} 

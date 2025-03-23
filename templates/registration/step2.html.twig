@@ -1,0 +1,143 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}StreamPlus - Address Information{% endblock %}
+
+{% block body %}
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white">
+                    <h3 class="card-title mb-0">
+                        <i class="bi bi-geo-alt me-2"></i>Step 2: Address Information
+                    </h3>
+                </div>
+                <div class="card-body">
+                    {{ form_start(form, {
+                        'attr': {
+                            'class': 'needs-validation',
+                            'novalidate': 'novalidate',
+                            'data-controller': 'form-validation',
+                            'data-form-validation-step-value': 2,
+                            'data-form-validation-total-steps-value': 3
+                        }
+                    }) }}
+                    
+                    <div class="progress mb-4" style="height: 0.5rem;">
+                        <div class="progress-bar bg-primary" role="progressbar" style="width: 66%;" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.addressLine1) }}
+                        {{ form_widget(form.addressLine1) }}
+                        {{ form_errors(form.addressLine1) }}
+                        <div class="form-text">Enter your street address</div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.addressLine2) }}
+                        {{ form_widget(form.addressLine2) }}
+                        {{ form_errors(form.addressLine2) }}
+                        <div class="form-text text-muted">
+                            <i class="bi bi-info-circle me-1"></i>
+                            Optional: Apartment, suite, unit, etc.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.city) }}
+                        {{ form_widget(form.city) }}
+                        {{ form_errors(form.city) }}
+                        <div class="form-text">Enter your city name</div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            {{ form_label(form.postalCode) }}
+                            {{ form_widget(form.postalCode) }}
+                            {{ form_errors(form.postalCode) }}
+                            <div class="form-text postal-code-format"></div>
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_label(form.stateProvince) }}
+                            {{ form_widget(form.stateProvince) }}
+                            {{ form_errors(form.stateProvince) }}
+                            <div class="form-text state-province-label">State/Province</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        {{ form_label(form.country) }}
+                        {{ form_widget(form.country) }}
+                        {{ form_errors(form.country) }}
+                        <div class="form-text">Select your country of residence</div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button type="button" class="btn btn-outline-secondary" onclick="window.history.back()">
+                            <i class="bi bi-arrow-left me-2"></i>Previous Step
+                        </button>
+                        <button type="submit" class="btn btn-primary" data-form-validation-target="submitButton">
+                            Next Step <i class="bi bi-arrow-right ms-2"></i>
+                        </button>
+                    </div>
+
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add custom validation styles
+            const forms = document.querySelectorAll('.needs-validation');
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    // Clear all error messages when submitting
+                    const errorMessages = form.querySelectorAll('.invalid-feedback');
+                    errorMessages.forEach(error => error.style.display = 'none');
+                    
+                    if (!form.checkValidity()) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+
+            const countrySelect = document.querySelector('#address_country');
+            const stateLabel = document.querySelector('.state-province-label');
+            const postalFormat = document.querySelector('.postal-code-format');
+
+            function updateLabels(country) {
+                switch(country) {
+                    case 'US':
+                        stateLabel.textContent = 'State';
+                        postalFormat.textContent = 'Format: 12345 or 12345-6789';
+                        break;
+                    case 'GB':
+                        stateLabel.textContent = 'County';
+                        postalFormat.textContent = 'Format: SW1A 1AA';
+                        break;
+                    case 'CA':
+                        stateLabel.textContent = 'Province';
+                        postalFormat.textContent = 'Format: A1A 1A1';
+                        break;
+                    default:
+                        stateLabel.textContent = 'State/Province';
+                        postalFormat.textContent = '';
+                }
+            }
+
+            countrySelect.addEventListener('change', function() {
+                updateLabels(this.value);
+            });
+
+            // Initialize labels based on selected country
+            updateLabels(countrySelect.value);
+        });
+    </script>
+{% endblock %} 

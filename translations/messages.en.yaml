@@ -1,0 +1,37 @@
+form:
+  user:
+    name: 'Full Name'
+    email: 'Email Address'
+    phone: 'Phone Number'
+    subscription: 'Subscription Type'
+    errors:
+      name: 'Please enter your full name'
+      email: 'Please enter a valid email address'
+      phone: 'Please enter a valid phone number'
+      subscription: 'Please select a subscription type'
+  address:
+    addressLine1: 'Street Address'
+    addressLine2: 'Apartment, suite, unit, etc.'
+    city: 'City'
+    postalCode: 'Postal Code'
+    stateProvince: 'State/Province'
+    country: 'Country'
+    errors:
+      addressLine1: 'Please enter your street address'
+      city: 'Please enter your city'
+      postalCode: 'Please enter a valid postal code'
+      stateProvince: 'Please enter your state/province'
+      country: 'Please select your country'
+  payment:
+    cardNumber: 'Card Number'
+    expirationDate: 'Expiration Date'
+    cvv: 'CVV'
+    errors:
+      cardNumber: 'Please enter a valid card number'
+      expirationDate: 'Please enter a valid expiration date'
+      cvv: 'Please enter a valid CVV'
+  buttons:
+    next: 'Next Step'
+    previous: 'Previous Step'
+    submit: 'Complete Registration'
+    back: 'Go Back' 

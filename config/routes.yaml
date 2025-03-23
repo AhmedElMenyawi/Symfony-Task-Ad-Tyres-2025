@@ -1,0 +1,19 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+
+app_register:
+    path: /register
+    controller: App\Controller\RegistrationController::index
+
+app_register_step:
+    path: /register/step{step}
+    controller: App\Controller\RegistrationController::registerStep
+    requirements:
+        step: '[1-3]'
+
+app_register_success:
+    path: /register/success
+    controller: App\Controller\RegistrationController::success
